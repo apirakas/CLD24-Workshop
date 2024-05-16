@@ -1,13 +1,15 @@
 # <Your Subject>
 
 ## POC objectives
-
-<Validate the possible use of .... in the context of ....>
+Mettre en place une infrastructure web standard (front-end et backend) dans une autre plateforme (Azure).
 
 ## Infra architecture
 
 <Logical components, ports/protocols, cloud type.>
+NoSQL database
+Load balancer
 
+![Diagramme d'architecture](./assets/img/Infra_CLD_workshop.drawio.png)
 ## Scenario
 
 Describe step-by-step the scenario. Write it using this format (BDD style).
