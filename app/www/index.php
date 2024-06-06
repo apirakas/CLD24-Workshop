@@ -29,13 +29,13 @@ $today = strftime("%d %B %Y");
     <section class="portfolio-block project">
       <div class="container">
         <div class="heading">
-          <h2>BDR - Projet du Pokédex</h2>
+          <h2>CLD - Pokédex</h2>
         </div>
         <div class="image" style="background-image:url(&quot;assets/img/pokemonwallpaper.jpg&quot;);"></div>
         <div class="row">
           <div class="col-12 col-md-6 offset-md-1 info">
             <h3>Description</h3>
-            <p>Ce site constitue la partie finale de notre projet de BDR (2023 - 2024).</p>
+            <p>Ce site constitue la partie application de notre workshop de CLD (2023 - 2024).</p>
             <p>Il établit une connexion à notre base de données afin d'afficher les informations récupérées depuis celle-ci.</p>
           </div>
           <div class="col-12 col-md-3 offset-md-1 meta">

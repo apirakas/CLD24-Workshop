@@ -5,8 +5,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: bdr_project_web
-    image: php:bdr
+    container_name: cld_project_web
+    image: php:cld
     volumes:
       - ./www:/var/www/html
     ports:
@@ -15,7 +15,7 @@ services:
       - db
 
   db:
-    container_name: bdr_project_db
+    container_name: cld_project_db
     image: postgres:16
     environment:
       - POSTGRES_USER=postgres
