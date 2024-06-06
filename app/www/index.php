@@ -36,11 +36,11 @@ $today = strftime("%d %B %Y");
           <div class="col-12 col-md-6 offset-md-1 info">
             <h3>Description</h3>
             <p>Ce site constitue la partie application de notre workshop de CLD (2023 - 2024).</p>
-            <p>Il établit une connexion à notre base de données afin d'afficher les informations récupérées depuis celle-ci.</p>
+              <p>Il est hébergé sur Azure dans une VM et est loadbalancé par un objet "loadbalancer" offert par Azure. Cette application se connecte à une base de données hébergée par Azure elle aussi.</p>
           </div>
           <div class="col-12 col-md-3 offset-md-1 meta">
             <?php
-            print_r("<div class='tags'><span id='auteurlabel'>Auteur</span><a>Léo Rinsoz, Nicolas Junod, Fabrice Chapuis</a><span class='meta-heading'>Date</span><span>$today</span></div>")
+            print_r("<div class='tags'><span id='auteurlabel'>Auteurs</span><a>Nicolas Junod, Fabrice Chapuis</a><span class='meta-heading'>Date</span><span>$today</span></div>")
             ?>
           </div>
         </div>

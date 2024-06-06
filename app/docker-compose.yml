@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: cld_project_web
+    container_name: cld_workshop_web
     image: php:cld
     volumes:
       - ./www:/var/www/html
@@ -15,7 +15,7 @@ services:
       - db
 
   db:
-    container_name: cld_project_db
+    container_name: cld_workshop_db
     image: postgres:16
     environment:
       - POSTGRES_USER=postgres
