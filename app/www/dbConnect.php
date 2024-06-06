@@ -1,7 +1,7 @@
 <?php
 $host = 'db'; // Le nom du service du conteneur de la base de données dans Docker Compose
 $port = '5432'; // Le port exposé dans le conteneur Docker
-$dbname = 'projetPokemon'; // Le nom de la base de données
+$dbname = 'workshopCLD'; // Le nom de la base de données
 $user = 'postgres'; // Le username
 $password = 'trustno1'; // Le mot de passe
 

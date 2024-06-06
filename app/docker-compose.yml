@@ -20,7 +20,7 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=trustno1
-      - POSTGRES_DB=projetPokemon
+      - POSTGRES_DB=workshopCLD
     ports:
       - '5444:5432'
     volumes:
