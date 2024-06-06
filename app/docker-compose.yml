@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: bdr_project_web
+    image: php:bdr
+    volumes:
+      - ./www:/var/www/html
+    ports:
+      - "80:80"
+    depends_on:
+      - db
+
+  db:
+    container_name: bdr_project_db
+    image: postgres:16
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=trustno1
+      - POSTGRES_DB=projetPokemon
+    ports:
+      - '5444:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+volumes:
+  pgdata:
