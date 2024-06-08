@@ -78,11 +78,11 @@ CREATE TABLE Pokemon (
     idDresseur INT,
     sexe Sexe NOT NULL,
     shiny BOOLEAN NOT NULL DEFAULT FALSE,
-	idLieu INT NOT NULL,
-	CONSTRAINT PK_Pokemon PRIMARY KEY (numero, id),
+    idLieu INT NOT NULL,
+    CONSTRAINT PK_Pokemon PRIMARY KEY (numero, id),
     CONSTRAINT FK_Pokemon_numero FOREIGN KEY (numero) REFERENCES Pokedex(numero) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT FK_Pokemon_idDresseur FOREIGN KEY (idDresseur) REFERENCES Dresseur(id) ON DELETE SET NULL ON UPDATE CASCADE,
-	CONSTRAINT FK_Pokemon_idLieu FOREIGN KEY (idLieu) REFERENCES Lieu(id) ON DELETE SET NULL ON UPDATE CASCADE
+    CONSTRAINT FK_Pokemon_idLieu FOREIGN KEY (idLieu) REFERENCES Lieu(id) ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 -- CI : Un pokemon se trouve au même lieu que son Dresseur s'il en a un
@@ -103,16 +103,16 @@ AS $$
 $$;
 
 -- Déclaration du déclencheur CK_Pokemon_Meme_Lieu_Que_Dresseur_insert
-CREATE OR REPLACE TRIGGER trigger_ck_meme_lieu_que_dresseur_insert
+CREATE TRIGGER trigger_ck_meme_lieu_que_dresseur_insert
 BEFORE INSERT ON Pokemon
 FOR EACH ROW
-EXECUTE FUNCTION CK_Pokemon_Meme_Lieu_Que_Dresseur();
+EXECUTE PROCEDURE CK_Pokemon_Meme_Lieu_Que_Dresseur();
 
 -- Déclaration du déclencheur CK_Pokemon_Meme_Lieu_Que_Dresseur_update
-CREATE OR REPLACE TRIGGER trigger_ck_meme_lieu_que_dresseur_update
+CREATE TRIGGER trigger_ck_meme_lieu_que_dresseur_update
 BEFORE UPDATE ON Pokemon
 FOR EACH ROW
-EXECUTE FUNCTION CK_Pokemon_Meme_Lieu_Que_Dresseur();
+EXECUTE PROCEDURE CK_Pokemon_Meme_Lieu_Que_Dresseur();
 
 
 -- CI : Tous les Pokemons du Dresseur se déplacent avec lui
@@ -127,10 +127,10 @@ AS $$
 $$;
 
 -- Déclaration du déclencheur CK_Dresseur_Pokemon_Suit
-CREATE OR REPLACE TRIGGER trigger_ck_dresseur_pokemon_suit
+CREATE TRIGGER trigger_ck_dresseur_pokemon_suit
 AFTER UPDATE ON Dresseur
 FOR EACH ROW
-EXECUTE FUNCTION CK_Dresseur_Pokemon_Suit();
+EXECUTE PROCEDURE CK_Dresseur_Pokemon_Suit();
 
 -- Création de la table EffetSecondaire
 CREATE TABLE EffetSecondaire (
@@ -151,8 +151,8 @@ CREATE TABLE Multiplicateur (
     typeDestination VARCHAR(255),
     multiplicateur FLOAT NOT NULL,
     CONSTRAINT PK_Multiplicateur PRIMARY KEY (typeSource, typeDestination),
-	CONSTRAINT FK_Multiplicateur_typeSource FOREIGN KEY (typeSource) REFERENCES TypeElementaire(nom) ON DELETE CASCADE ON UPDATE CASCADE,
-	CONSTRAINT FK_Multiplicateur_typeDestination FOREIGN KEY (typeDestination) REFERENCES TypeElementaire(nom) ON DELETE CASCADE ON UPDATE CASCADE
+    CONSTRAINT FK_Multiplicateur_typeSource FOREIGN KEY (typeSource) REFERENCES TypeElementaire(nom) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT FK_Multiplicateur_typeDestination FOREIGN KEY (typeDestination) REFERENCES TypeElementaire(nom) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- Création de la table TypePokedex
@@ -160,8 +160,8 @@ CREATE TABLE TypePokedex (
     numeroPokedex INT,
     nomTypeElementaire VARCHAR(255) NOT NULL,
     CONSTRAINT PK_TypePokedex PRIMARY KEY (numeroPokedex, nomTypeElementaire),
-	CONSTRAINT FK_TypePokedex_numeroPokedex FOREIGN KEY (numeroPokedex) REFERENCES Pokedex(numero) ON DELETE CASCADE ON UPDATE CASCADE,
-	CONSTRAINT FK_TypePokedex_nomTypeElementaire FOREIGN KEY (nomTypeElementaire) REFERENCES TypeElementaire(nom) ON DELETE CASCADE ON UPDATE CASCADE
+    CONSTRAINT FK_TypePokedex_numeroPokedex FOREIGN KEY (numeroPokedex) REFERENCES Pokedex(numero) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT FK_TypePokedex_nomTypeElementaire FOREIGN KEY (nomTypeElementaire) REFERENCES TypeElementaire(nom) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- Création de la table Capacite
@@ -173,19 +173,19 @@ CREATE TABLE Capacite (
     precision INT NOT NULL,
     idEffetSecondaire INT,
     nomType VARCHAR(255) NOT NULL,
-	CONSTRAINT PK_Capacite PRIMARY KEY (nom),
+    CONSTRAINT PK_Capacite PRIMARY KEY (nom),
     CONSTRAINT FK_Capacite_idEffetSecondaire FOREIGN KEY (idEffetSecondaire) REFERENCES EffetSecondaire(id) ON DELETE SET NULL ON UPDATE CASCADE,
     CONSTRAINT FK_Capacite_nomType FOREIGN KEY (nomType) REFERENCES TypeElementaire(nom) ON DELETE CASCADE ON UPDATE CASCADE,
-	CONSTRAINT CK_Capacite_precision CHECK(precision BETWEEN 0 AND 100)
-    );
+    CONSTRAINT CK_Capacite_precision CHECK(precision BETWEEN 0 AND 100)
+);
 
 -- Création de la table PokedexCapacitePool
 CREATE TABLE PokedexCapacitePool (
     numeroPokedex INT,
     nomCapacite VARCHAR(255) NOT NULL,
     CONSTRAINT PK_PokedexCapacitePool PRIMARY KEY (numeroPokedex, nomCapacite),
-	CONSTRAINT FK_PokedexCapactiePool_numeroPokedex FOREIGN KEY (numeroPokedex) REFERENCES Pokedex(numero) ON DELETE CASCADE ON UPDATE CASCADE,
-	CONSTRAINT FK_PokedexCapactiePool_nomCapacite FOREIGN KEY (nomCapacite) REFERENCES Capacite(nom) ON DELETE CASCADE ON UPDATE CASCADE
+    CONSTRAINT FK_PokedexCapactiePool_numeroPokedex FOREIGN KEY (numeroPokedex) REFERENCES Pokedex(numero) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT FK_PokedexCapactiePool_nomCapacite FOREIGN KEY (nomCapacite) REFERENCES Capacite(nom) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- Création de la table PokemonCapacite
@@ -194,8 +194,8 @@ CREATE TABLE PokemonCapacite (
     idPokemon INT,
     nomCapacite VARCHAR(255),
     CONSTRAINT PK_PokemonCapacite PRIMARY KEY (numeroPokemon, idPokemon, nomCapacite),
-	CONSTRAINT FK_PokemonCapacite_Pokemon FOREIGN KEY (numeroPokemon, idPokemon) REFERENCES Pokemon(numero, id) ON DELETE CASCADE ON UPDATE CASCADE,
-	CONSTRAINT FK_PokemonCapacite_nomCapacite FOREIGN KEY (numeroPokemon, nomCapacite) REFERENCES PokedexCapacitePool(numeroPokedex, nomCapacite) ON DELETE CASCADE ON UPDATE CASCADE
+    CONSTRAINT FK_PokemonCapacite_Pokemon FOREIGN KEY (numeroPokemon, idPokemon) REFERENCES Pokemon(numero, id) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT FK_PokemonCapacite_nomCapacite FOREIGN KEY (numeroPokemon, nomCapacite) REFERENCES PokedexCapacitePool(numeroPokedex, nomCapacite) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- Création de la table PokemonLieu
@@ -203,8 +203,8 @@ CREATE TABLE PokedexLieu (
     numeroPokedex INT,
     nomTypeLieu VARCHAR(255),
     CONSTRAINT PK_PokedexLieu PRIMARY KEY (numeroPokedex, nomTypeLieu),
-	CONSTRAINT FK_PokemonLieu_numeroPokedex FOREIGN KEY (numeroPokedex) REFERENCES Pokedex(numero) ON DELETE CASCADE ON UPDATE CASCADE,
-	CONSTRAINT FK_PokemonLieu_nomTypeLieu FOREIGN KEY (nomTypeLieu) REFERENCES TypeLieu(nom) ON DELETE CASCADE ON UPDATE CASCADE
+    CONSTRAINT FK_PokemonLieu_numeroPokedex FOREIGN KEY (numeroPokedex) REFERENCES Pokedex(numero) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT FK_PokemonLieu_nomTypeLieu FOREIGN KEY (nomTypeLieu) REFERENCES TypeLieu(nom) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- Création de la table EvolutionPokedex
@@ -212,10 +212,9 @@ CREATE TABLE EvolutionPokedex (
     base INT,
     evolution INT,
     CONSTRAINT PK_EvolutionPokedex PRIMARY KEY (base, evolution),
-	CONSTRAINT FK_EvolutionPokedex_base FOREIGN KEY (base) REFERENCES Pokedex(numero) ON DELETE CASCADE ON UPDATE CASCADE,
-	CONSTRAINT FK_EvolutionPokedex_evolution FOREIGN KEY (evolution) REFERENCES Pokedex(numero) ON DELETE CASCADE ON UPDATE CASCADE,
-	-- CI : Un Pokémon ne peut pas évoluer en lui-même.
-	CONSTRAINT BaseEvolution CHECK (base != evolution)
+    CONSTRAINT FK_EvolutionPokedex_base FOREIGN KEY (base) REFERENCES Pokedex(numero) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT FK_EvolutionPokedex_evolution FOREIGN KEY (evolution) REFERENCES Pokedex(numero) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT BaseEvolution CHECK (base != evolution) -- Un Pokémon ne peut pas évoluer en lui-même.
 );
 
 -- Déclaration de la fonction CK_Pokemon_LieuValide servant comme contrainte de lieu
@@ -236,10 +235,10 @@ $$
 LANGUAGE plpgsql;
 
 -- Déclaration du déclencheur CK_Pokemon_LieuValide
-CREATE OR REPLACE TRIGGER trigger_ck_pokemon_lieuvalide
+CREATE TRIGGER trigger_ck_pokemon_lieuvalide
 BEFORE INSERT ON Pokemon
 FOR EACH ROW
-EXECUTE FUNCTION CK_Pokemon_LieuValide();
+EXECUTE PROCEDURE CK_Pokemon_LieuValide();
 
 -- Déclaration de la CI vérifiant si le pokemon n'a que des capacités autorisées
 CREATE OR REPLACE FUNCTION CK_PokemonCapaciteValide()
@@ -257,15 +256,15 @@ END;
 $$
 LANGUAGE plpgsql;
 
-CREATE OR REPLACE TRIGGER CK_PokemonCapaciteValide_insert
+CREATE TRIGGER CK_PokemonCapaciteValide_insert
 BEFORE INSERT ON pokemonCapacite
 FOR EACH ROW
-EXECUTE FUNCTION CK_PokemonCapaciteValide();
+EXECUTE PROCEDURE CK_PokemonCapaciteValide();
 
-CREATE OR REPLACE TRIGGER CK_PokemonCapaciteValide_update
+CREATE TRIGGER CK_PokemonCapaciteValide_update
 BEFORE UPDATE ON pokemonCapacite
 FOR EACH ROW
-EXECUTE FUNCTION CK_PokemonCapaciteValide();
+EXECUTE PROCEDURE CK_PokemonCapaciteValide();
 
 ------------------------
 -- Insertion des données

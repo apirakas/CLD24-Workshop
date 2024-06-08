@@ -1,7 +1,7 @@
 <?php
-$host = 'db'; // Le nom du service du conteneur de la base de données dans Docker Compose
-$port = '5432'; // Le port exposé dans le conteneur Docker
-$dbname = 'workshopCLD'; // Le nom de la base de données
+$host = 'localhost'; // Utilisez localhost si la DB est sur la même VM
+$port = '5432'; // Le port par défaut pour PostgreSQL
+$dbname = 'workshopcld'; // Le nom de la base de données
 $user = 'postgres'; // Le username
 $password = 'trustno1'; // Le mot de passe
 
@@ -13,8 +13,8 @@ try {
   // Configurer PDO pour afficher les erreurs
   $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 }
-// Récupérer l'erreur si il y a un problème de connexion à la base de données
+// Récupérer l'erreur s'il y a un problème de connexion à la base de données
 catch (Exception $e) {
   // Afficher l'erreur
-  print_r($e);
+  echo "Erreur de connexion à la base de données: " . $e->getMessage();
 }

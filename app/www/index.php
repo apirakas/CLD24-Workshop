@@ -40,7 +40,7 @@ $today = strftime("%d %B %Y");
           </div>
           <div class="col-12 col-md-3 offset-md-1 meta">
             <?php
-            print_r("<div class='tags'><span id='auteurlabel'>Auteurs</span><a>Nicolas Junod, Fabrice Chapuis</a><span class='meta-heading'>Date</span><span>$today</span></div>")
+            print_r("<div class='tags'><span id='auteurlabel'>Auteurs</span><a>Fabrice Chapuis, Nicolas Junod, Anthonponrajkumar Pirakasraj, Richard Aurélien</a><span class='meta-heading'>Date</span><span>$today</span></div>")
             ?>
           </div>
         </div>

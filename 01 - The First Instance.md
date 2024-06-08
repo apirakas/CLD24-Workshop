@@ -55,24 +55,86 @@ az vm show --resource-group myResourceGroup --name myVM --show-details --query [
 ```
 ## Installation of the Web, PHP and PostgreSQL Server
 Since we are now connected, it is possible to install everything needed:
-```PowerShell
+```bash
 sudo apt update
 sudo apt install -y apache2 php php-pgsql libapache2-mod-php postgresql postgresql-contrib
 ```
 
 ## postgreSQL Configuration
 We connect to our postgresql server
-```PowerShell
+```bash
 sudo -i -u postgres
 psql
 ```
 
 To create the database that will be used by the application.
-```PowerShell
-CREATE DATABASE workshopCLD;
+```SQL
+CREATE DATABASE workshopcld;
 CREATE USER first WITH ENCRYPTED PASSWORD 'caca';
 GRANT ALL PRIVILEGES ON DATABASE workshopCLD TO first;
+-- Create the different objects and insert data
 \q
 exit
+
+```
+
+## Deploy the app
+To do this, We upload the app with the command
+```bash
+scp .\<app name>.tar.gz azureuser@<public ip>:/home/azureuser
+```
+from our local machine, and then we connect again on the VM to move it to the path "/var/www/html".
+we then adjust the folder's permissions:
+```bash
+sudo chmod -R 755 ./<app>
+sudo chown -R www-data:www-data ./<app>
+```
+Then, we added a configuration file for the website:
+```bash
+sudo nano /etc/apache2/sites-available/app.conf
+```
+```html
+<VirtualHost *:80>
+    ServerAdmin webmaster@localhost
+    DocumentRoot /var/www/html/app/www
+
+    <Directory /var/www/html>
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+```
+
+We then activated the website and reloaded Apache:
+```bash
+sudo a2ensite app.conf
+sudo systemctl restart apache2
+```
+
+
+## Secure the first app
+The problem now, is that the website is available on http://<ip>/app/www. It means that connecting to http://<ip>/, we are in the root folder. So we can see everything, espacially download the init.sql file and see all the configuration.
+This website helped us to resolve the problem:
+https://gist.github.com/masudcsesust04/9e6e2b598e5eeab80dd80f2b5f54c1f1
+
+
+
+using ufw to allow only useful trafic
+```bash
+sudo ufw allow OpenSSH
+sudo ufw allow 'Apache Full'
+sudo ufw enable
+```
+
+## Setting up HTTPS
+Here, we use "Let's Encrypt" to get a free SSL certificate and secure the connections.
+
+```bash
+sudo apt-get install certbot python3-certbot-apache
+sudo certbot --apache
 
 ```
