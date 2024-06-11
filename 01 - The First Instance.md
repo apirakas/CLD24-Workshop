@@ -70,7 +70,7 @@ psql
 To create the database that will be used by the application.
 ```SQL
 CREATE DATABASE workshopcld;
-CREATE USER first WITH ENCRYPTED PASSWORD 'caca';
+CREATE USER first WITH ENCRYPTED PASSWORD 'Xx_passwordGigaString_xX';
 GRANT ALL PRIVILEGES ON DATABASE workshopCLD TO first;
 -- Create the different objects and insert data
 \q
