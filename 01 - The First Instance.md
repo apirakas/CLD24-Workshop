@@ -79,7 +79,11 @@ exit
 ```
 
 ## Deploy the app
-To do this, We upload the app with the command
+To do this, we firstly need to archive the project
+```bash
+tar -czvf <folder>.tar.gz <destination>
+```
+Then, we upload it on the VM
 ```bash
 scp .\<app name>.tar.gz azureuser@<public ip>:/home/azureuser
 ```
