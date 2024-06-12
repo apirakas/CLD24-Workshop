@@ -268,6 +268,7 @@ az network public-ip delete -g $resourceGroupName -n $publicIp
 ```
 
 ```JSON
+[OUTPUT]
 {
   "etag": "W/\"f4459283-61d2-4ba8-acc3-c640a4b4c819\"",
   "id": "/subscriptions/a34a3ff1-f14c-498d-aa65-0707d5e729dc/resourceGroups/CLDWorkshop/providers/Microsoft.Network/networkInterfaces/StatelessInstanceVMNic/ipConfigurations/ipconfigStatelessInstance",

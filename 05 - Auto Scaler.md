@@ -104,7 +104,7 @@ What we want is to scale it depending on the used CPU. So, to define the rules, 
 ```PowerShell
 az monitor autoscale rule create --resource-group CLDWorkshop --autoscale-name autoscale --scale out 1 --condition "Percentage CPU > 75 avg 5m"
 
-az monitor autoscale rule create --resource-group CLDWorkshop --autoscale-name autoscale --scale in 1 --condition "Percentage CPU > 75 avg 5m"
+az monitor autoscale rule create --resource-group CLDWorkshop --autoscale-name autoscale --scale in 1 --condition "Percentage CPU < 75 avg 5m"
 ```
 
 Those 2 rules define the auto scaling up, and the auto scaling down.
