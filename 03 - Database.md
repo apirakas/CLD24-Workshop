@@ -7,7 +7,7 @@ This command sequence uses the Azure CLI to create a new subnet within an existi
 az network vnet subnet create `
       --name 'NewSubnetForPostgreSQL' `
       --resource-group 'CLDWorkshop' `
-      --vnet-name 'StatefulInstanceVNET' `
+      --vnet-name 'StatelessInstanceVNET' `
       --address-prefixes '10.0.2.0/24'
 
 [OUTPUT]
@@ -15,7 +15,7 @@ az network vnet subnet create `
   "addressPrefix": "10.0.2.0/24",
   "delegations": [],
   "etag": "W/\"ef1ffd0b-b836-40cc-a1b0-7bac3a2bd12f\"",
-  "id": "/subscriptions/a34a3ff1-f14c-498d-aa65-0707d5e729dc/resourceGroups/CLDWorkshop/providers/Microsoft.Network/virtualNetworks/StatefulInstanceVNET/subnets/NewSubnetForPostgreSQL",
+  "id": "/subscriptions/a34a3ff1-f14c-498d-aa65-0707d5e729dc/resourceGroups/CLDWorkshop/providers/Microsoft.Network/virtualNetworks/StatelessInstanceVNET/subnets/NewSubnetForPostgreSQL",
   "name": "NewSubnetForPostgreSQL",
   "privateEndpointNetworkPolicies": "Disabled",
   "privateLinkServiceNetworkPolicies": "Enabled",
@@ -39,7 +39,7 @@ az postgres flexible-server create `
   --version '16' `
   --tier 'Burstable' `
   --sku-name 'Standard_B1ms' `
-  --vnet 'StatefulInstanceVNET' `
+  --vnet 'StatelessInstanceVNET' `
   --subnet 'NewSubnetForPostgreSQL' `
   --storage-size '32'
   
@@ -47,7 +47,7 @@ az postgres flexible-server create `
 Checking the existence of the resource group 'CLDWorkshop'...
 Resource group 'CLDWorkshop' exists ? : True 
 You have supplied a Vnet and Subnet name. Verifying its existence...
-Using existing Vnet "StatefulInstanceVNET" in resource group "CLDWorkshop"
+Using existing Vnet "StatelessInstanceVNET" in resource group "CLDWorkshop"
 Using existing Subnet "NewSubnetForPostgreSQL" in resource group "CLDWorkshop"
 Do you want to create a new private DNS zone cld-workshop-db.private.postgres.database.azure.com in resource group CLDWorkshop (y/n): y
 Creating a private dns zone cld-workshop-db.private.postgres.database.azure.com in resource group "CLDWorkshop"
@@ -65,7 +65,7 @@ Try using 'az postgres flexible-server connect' command to test out connection.
   "password": "***",
   "resourceGroup": "CLDWorkshop",
   "skuname": "Standard_B1ms",
-  "subnetId": "/subscriptions/a34a3ff1-f14c-498d-aa65-0707d5e729dc/resourceGroups/CLDWorkshop/providers/Microsoft.Network/virtualNetworks/StatefulInstanceVNET/subnets/NewSubnetForPostgreSQL",
+  "subnetId": "/subscriptions/a34a3ff1-f14c-498d-aa65-0707d5e729dc/resourceGroups/CLDWorkshop/providers/Microsoft.Network/virtualNetworks/StatelessInstanceVNET/subnets/NewSubnetForPostgreSQL",
   "username": "postgres",
   "version": "16"
 }

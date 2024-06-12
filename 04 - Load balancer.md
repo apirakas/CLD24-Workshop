@@ -5,21 +5,22 @@ We already have a ResourceGroup and a VirtualNetwork so it will not be covered h
 
 Reminder : 
 - ResourceGroup = CLDWorkshop
-- VirtualNetwork = StatefulInstanceVNET
+- VirtualNetwork = StatelessInstanceVNET
 
 
 ### Create a Subnet
 ```PowerShell
 [INPUT]
+az network vnet subnet create  --resource-group CLDWorkshop --vnet-name StatelessInstanceVNET  --name LoadBalancerSubnet  --address-prefix 10.0.0.0/24
+```
 
-az network vnet subnet create  --resource-group CLDWorkshop --vnet-name StatefulInstanceVNET  --name LoadBalancerSubnet  --address-prefix 10.0.0.0/24
-
+```JSON
 [OUTPUT]
 {
   "addressPrefix": "10.0.0.0/24",
   "delegations": [],
   "etag": "W/\"cdc5512d-42cf-4cee-bfd7-7542df4725b3\"",
-  "id": "/subscriptions/a34a3ff1-f14c-498d-aa65-0707d5e729dc/resourceGroups/CLDWorkshop/providers/Microsoft.Network/virtualNetworks/StatefulInstanceVNET/subnets/LoadBalancerSubnet",
+  "id": "/subscriptions/a34a3ff1-f14c-498d-aa65-0707d5e729dc/resourceGroups/CLDWorkshop/providers/Microsoft.Network/virtualNetworks/StatelessInstanceVNET/subnets/LoadBalancerSubnet",
   "name": "LoadBalancerSubnet",
   "privateEndpointNetworkPolicies": "Disabled",
   "privateLinkServiceNetworkPolicies": "Enabled",
@@ -33,16 +34,17 @@ az network vnet subnet create  --resource-group CLDWorkshop --vnet-name Stateful
 #### We had to create a new subnet for instances because we wanted the LB subnet to have the 10.0.0.0/24 range... so here is the new InstanceSubnet with range 10.0.1.0/24
 
 ```PowerShell
-
 [INPUT]
-az network vnet subnet create  --resource-group CLDWorkshop --vnet-name StatefulInstanceVNET --name InstanceSubnet --address-prefix 10.0.1.0/24
+az network vnet subnet create  --resource-group CLDWorkshop --vnet-name StatelessInstanceVNET --name InstanceSubnet --address-prefix 10.0.1.0/24
+```
 
+```JSON
 [OUTPUT]
 {
   "addressPrefix": "10.0.1.0/24",
   "delegations": [],
   "etag": "W/\"a6f22d89-654e-4bb2-825e-00ddc6802e25\"",
-  "id": "/subscriptions/a34a3ff1-f14c-498d-aa65-0707d5e729dc/resourceGroups/CLDWorkshop/providers/Microsoft.Network/virtualNetworks/StatefulInstanceVNET/subnets/InstanceSubnet",
+  "id": "/subscriptions/a34a3ff1-f14c-498d-aa65-0707d5e729dc/resourceGroups/CLDWorkshop/providers/Microsoft.Network/virtualNetworks/StatelessInstanceVNET/subnets/InstanceSubnet",
   "name": "InstanceSubnet",
   "privateEndpointNetworkPolicies": "Disabled",
   "privateLinkServiceNetworkPolicies": "Enabled",
@@ -56,7 +58,9 @@ az network vnet subnet create  --resource-group CLDWorkshop --vnet-name Stateful
 ```PowerShell
 [INPUT]
 az network public-ip create  --resource-group CLDWorkshop --name LoadBalancerPublicIP --allocation-method Static
+```
 
+```JSON
 [OUTPUT]
 {
   "publicIp": {
@@ -89,8 +93,9 @@ az network public-ip create  --resource-group CLDWorkshop --name LoadBalancerPub
 ```PowerShell
 [INPUT]
 az network lb create  --resource-group CLDWorkshop --name PublicLoadBalancer --public-ip-address LoadBalancerPublicIP --frontend-ip-name FrontendIPConfig  --backend-pool-name BackendPool  --sku Standard
+```
 
-
+```JSON
 [OUTPUT]
 {
   "loadBalancer": {
@@ -141,7 +146,9 @@ Doing this will inform the LoadBalancer which VMs are in his pool so he knows wh
 ```PowerShell
 [INPUT]
 az network nic ip-config address-pool add --address-pool BackendPool --ip-config-name ipconfigStatelessInstance --nic-name StatelessInstanceVMNic  --resource-group CLDWorkshop --lb-name PublicLoadBalancer
+```
 
+```JSON
 [OUTPUT]
 {
   "etag": "W/\"ec210323-83f8-4a88-b593-55e4a8d1ad31\"",
@@ -164,7 +171,7 @@ az network nic ip-config address-pool add --address-pool BackendPool --ip-config
   },
   "resourceGroup": "CLDWorkshop",
   "subnet": {
-    "id": "/subscriptions/a34a3ff1-f14c-498d-aa65-0707d5e729dc/resourceGroups/CLDWorkshop/providers/Microsoft.Network/virtualNetworks/StatefulInstanceVNET/subnets/InstanceSubnet",
+    "id": "/subscriptions/a34a3ff1-f14c-498d-aa65-0707d5e729dc/resourceGroups/CLDWorkshop/providers/Microsoft.Network/virtualNetworks/StatelessInstanceVNET/subnets/InstanceSubnet",
     "resourceGroup": "CLDWorkshop"
   },
   "type": "Microsoft.Network/networkInterfaces/ipConfigurations"
@@ -176,7 +183,9 @@ az network nic ip-config address-pool add --address-pool BackendPool --ip-config
 ```PowerShell
 [INPUT]
 az network lb probe create  --resource-group CLDWorkshop --lb-name PublicLoadBalancer --name PLBHealthProbe  --protocol tcp  --port 80
+```
 
+```JSON
 [OUTPUT]
 {
   "etag": "W/\"9838c591-3e02-4c30-970f-ea633681dde5\"",
@@ -195,10 +204,11 @@ az network lb probe create  --resource-group CLDWorkshop --lb-name PublicLoadBal
 
 ### Finally, add rules to the load balancer
 
-```PowerShell
+```Powershell
 [INPUT]
 az network lb rule create  --resource-group CLDWorkshop  --lb-name PublicLoadBalancer  --name HTTPRule  --protocol tcp  --frontend-ip-name FrontendIPConfig  --backend-pool-name BackendPool  --probe-name PLBHealthProbe  --frontend-port 80  --backend-port 80
-
+```
+```JSON
 [OUTPUT]
 {
   "backendAddressPool": {
@@ -237,7 +247,14 @@ az network lb rule create  --resource-group CLDWorkshop  --lb-name PublicLoadBal
 ```
 
 ### All done !
-Now you can access the Load Balancer adress here : http://172.161.134.28/
+Now that the Load balancer, remove the public IP of the stateless instance:
+
+```PowerShell
+[INPUT]
+
+```
+
+Now you can access the Load Balancer address here : http://172.161.134.28/
 
 And you will be redirected to the application !!
 
