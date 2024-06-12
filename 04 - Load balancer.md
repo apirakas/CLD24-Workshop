@@ -247,14 +247,53 @@ az network lb rule create  --resource-group CLDWorkshop  --lb-name PublicLoadBal
 ```
 
 ### All done !
-Now that the Load balancer, remove the public IP of the stateless instance:
+Now that the Load balancer, is created, we won't need the VM's public ip anymore. Remove it from the stateless instance:
 
 ```PowerShell
 [INPUT]
+$resourceGroupName = "CLDWorkshop"
+$nicName = "StatelessInstanceVMNic"
+$publicIp = "172.161.142.252"
+$publicIpNameOnNic = "ipconfigStatelessInstance"
 
+# Disassociate the Public IP Address from the NIC first
+az network nic ip-config update `
+  --resource-group $resourceGroupName `
+  --nic-name $nicName `
+  --name $publicIpNameOnNic `
+  --remove PublicIpAddress
+
+# Delete the Public IP
+az network public-ip delete -g $resourceGroupName -n $publicIp
 ```
 
-Now you can access the Load Balancer address here : http://172.161.134.28/
+```JSON
+{
+  "etag": "W/\"f4459283-61d2-4ba8-acc3-c640a4b4c819\"",
+  "id": "/subscriptions/a34a3ff1-f14c-498d-aa65-0707d5e729dc/resourceGroups/CLDWorkshop/providers/Microsoft.Network/networkInterfaces/StatelessInstanceVMNic/ipConfigurations/ipconfigStatelessInstance",
+  "loadBalancerBackendAddressPools": [
+    {
+      "id": "/subscriptions/a34a3ff1-f14c-498d-aa65-0707d5e729dc/resourceGroups/CLDWorkshop/providers/Microsoft.Network/loadBalancers/PublicLoadBalancer/backendAddressPools/BackendPool",
+      "resourceGroup": "CLDWorkshop"
+    }
+  ],
+  "name": "ipconfigStatelessInstance",
+  "primary": true,
+  "privateIPAddress": "10.0.1.4",
+  "privateIPAddressVersion": "IPv4",
+  "privateIPAllocationMethod": "Dynamic",
+  "provisioningState": "Succeeded",
+  "resourceGroup": "CLDWorkshop",
+  "subnet": {
+    "id": "/subscriptions/a34a3ff1-f14c-498d-aa65-0707d5e729dc/resourceGroups/CLDWorkshop/providers/Microsoft.Network/virtualNetworks/StatefulInstanceVNET/subnets/InstanceSubnet",
+    "resourceGroup": "CLDWorkshop"
+  },
+  "type": "Microsoft.Network/networkInterfaces/ipConfigurations"
+}
+```
+script's source: https://build5nines.com/azure-cli-delete-public-ip-from-existing-nic-vm/ (We just had to convert it into PowerShell)
+
+Now you can see the VM's IP is the same as the load balancer's, and you can access its address here : http://172.161.134.28/
 
 And you will be redirected to the application !!
 

@@ -9,7 +9,9 @@ az network vnet subnet create `
       --resource-group 'CLDWorkshop' `
       --vnet-name 'StatelessInstanceVNET' `
       --address-prefixes '10.0.2.0/24'
+```
 
+```JSON
 [OUTPUT]
 {
   "addressPrefix": "10.0.2.0/24",
@@ -42,7 +44,9 @@ az postgres flexible-server create `
   --vnet 'StatelessInstanceVNET' `
   --subnet 'NewSubnetForPostgreSQL' `
   --storage-size '32'
-  
+```
+
+```JSON
 [OUTPUT]
 Checking the existence of the resource group 'CLDWorkshop'...
 Resource group 'CLDWorkshop' exists ? : True 
