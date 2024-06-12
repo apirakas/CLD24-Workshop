@@ -10,7 +10,7 @@ Mettre en place une infrastructure web standard (front-end et backend) dans une 
 - Ports / Protocols : HTTPS between client and server, HTTP inside
 - Cloud type : IaaS
 
-![Diagramme d'architecture](./assets/img/Infra_CLD_workshop.drawio.png)
+<img src="./assets/img/Infra_CLD_workshop.svg" alt="Diagramme d'architecture" style="zoom: 200%;" />
 
 ## Scenario
 
