@@ -1,15 +1,12 @@
 # Create the Load Balancer
 Here we will create the Load Balancer
 
-We first require :
-- A Resource Group
-- A public IP Adress
-- A Virtual Network
-- A Subnet
+We already have a ResourceGroup and a VirtualNetwork so it will not be covered here !
 
-Luckily, almost all those requirements are already in place.
+Reminder : 
+- ResourceGroup = CLDWorkshop
+- VirtualNetwork = StatefulInstanceVNET
 
-We will only need a subnet for the LoadBalancer !
 
 ### Create a Subnet
 ```PowerShell
@@ -33,7 +30,7 @@ az network vnet subnet create  --resource-group CLDWorkshop --vnet-name Stateful
 
 ```
 
-#### We had to create a new subnet for instances because we wanted the LB subnet to have the 10.0.0.0/24 range... so here is the new InstanceSubnet
+#### We had to create a new subnet for instances because we wanted the LB subnet to have the 10.0.0.0/24 range... so here is the new InstanceSubnet with range 10.0.1.0/24
 
 ```PowerShell
 
