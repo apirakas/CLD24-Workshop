@@ -109,6 +109,11 @@ az monitor autoscale rule create --resource-group CLDWorkshop --autoscale-name a
 
 Those 2 rules define the auto scaling up, and the auto scaling down.
 
-# Summary
+### Security
+
+To finish this chapter, I'd like to say one last thing: Thanks to Azure, it is possible to protect the website from DDoS attacks. It can be done from the public address, under "protect an IP address".
+
+## Summary
+
 A VMSS is an object similar to a VM, but that can be auto scaled. The auto scaling is defined thanks to a bunch of rules, and the load balancing is automatized. So, no need for any load balancer.
 The VMSS is created from a VM image, meaning it will be its true copy.
