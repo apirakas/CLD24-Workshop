@@ -75,7 +75,7 @@ az image create --resource-group <Resource group> --name <Image name> --source <
 To create the VMSS, we need to create a new subnet:
 
 ```PowerShell
-az network vnet subnet create --resource-group CLDWorkshop --vnet-name StatefulInstanceVNET --name VMSSsubnet --address-prefix 10.0.3.0/24
+az network vnet subnet create --resource-group <Resource Group> --vnet-name <Virtual Network Name> --name <New Subnet Name> --address-prefix <address prefix>
 ```
 
 Now, with our image, we can create the VMSS:
@@ -96,15 +96,15 @@ Now it is created, we need to configure the rules for the auto scaling.
 This command can be used to create the autoscaling's configuration:
 
 ```PowerShell
-az monitor autoscale create --resource-group CLDWorkshop --resource StatelessInstanceVMSS --resource-type Microsoft.Compute/virtualMachineScaleSets --name autoscale --min-count 1 --max-count 4 --count 1
+az monitor autoscale create --resource-group <Resource Group> --resource <New Resource name> --resource-type Microsoft.Compute/virtualMachineScaleSets --name autoscale --min-count <min of VMs up> --max-count <Max of VMs up> --count <Default quantity>
 ```
 
 What we want is to scale it depending on the used CPU. So, to define the rules, we can execute this:
 
 ```PowerShell
-az monitor autoscale rule create --resource-group CLDWorkshop --autoscale-name autoscale --scale out 1 --condition "Percentage CPU > 75 avg 5m"
+az monitor autoscale rule create --resource-group <Resource Group> --autoscale-name autoscale --scale out 1 --condition "Percentage CPU > 75 avg 5m"
 
-az monitor autoscale rule create --resource-group CLDWorkshop --autoscale-name autoscale --scale in 1 --condition "Percentage CPU < 75 avg 5m"
+az monitor autoscale rule create --resource-group <Resource Group> --autoscale-name autoscale --scale in 1 --condition "Percentage CPU < 75 avg 5m"
 ```
 
 Those 2 rules define the auto scaling up, and the auto scaling down.
