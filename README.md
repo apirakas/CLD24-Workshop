@@ -1,4 +1,6 @@
 # Azure
+You can access the application here : http://51.103.224.50/
+
 
 ## POC objectives
 

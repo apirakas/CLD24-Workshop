@@ -294,7 +294,7 @@ az network public-ip delete -g $resourceGroupName -n $publicIp
 ```
 script's source: https://build5nines.com/azure-cli-delete-public-ip-from-existing-nic-vm/ (We just had to convert it into PowerShell)
 
-Now you can see the VM's IP is the same as the load balancer's, and you can access its address here : http://172.161.134.28/
+Now you can see the VM's IP is the same as the load balancer's, and you can access its address here : http://51.103.224.50/
 
 And you will be redirected to the application !!
 
