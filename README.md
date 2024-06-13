@@ -59,6 +59,6 @@ Describe step-by-step the scenario. Write it using this format (BDD style).
 
 ## Return of experience
 
-<take a position on the poc that has been produced.>
+En conclusion, nous avons mené à bien notre proof of concept (POC) en testant une grande variété de fonctionnalités, répondant ainsi aux attentes initiales du projet. Grâce à une collaboration efficace malgré le fait que nous ne nous connaissions pas et une répartition judicieuse des tâches, nous avons pu mener à bien le workshop malgré l'ampleur du projet.
 
-<Did it validate the announced objectives?>
+En commençant par la création d'une simple instance PHP statique, nous avons progressivement mis en place une infrastructure, comprenant une base de données externalisée et un équilibrage de charge pour gérer les variations de trafic. Cette démarche a culminé avec une infrastructure optimisée, capable de s'adapter aux besoins de ressources, grâce à des tests de stress.
